@@ -15,8 +15,8 @@ public class TrainData {
     ArrayList<Integer> decade = new ArrayList<>();
 
     void calcDecade() {
-        for (int i = 0; i < year.size(); i++) {
-            decade.add((year.get(i) - 1900) / 10);
+        for (Integer integer : year) {
+            decade.add((integer - 1900) / 10);
         }
     }
 
