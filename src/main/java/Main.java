@@ -8,6 +8,15 @@ import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class Main {
+    ArrayList<Integer> year = new ArrayList<>();
+    ArrayList<Integer> rides_mkm = new ArrayList<>();
+    ArrayList<Integer> coll_acc = new ArrayList<>();
+    ArrayList<Integer> coll_fatal = new ArrayList<>();
+    ArrayList<Integer> road_acc = new ArrayList<>();
+    ArrayList<Integer> road_fatal = new ArrayList<>();
+    ArrayList<Integer> move_acc = new ArrayList<>();
+    ArrayList<Integer> move_fatal = new ArrayList<>();
+    ArrayList<Integer> decade = new ArrayList<>();
 
     public static void main(String[] args) throws IOException, URISyntaxException {
         Main main = new Main();
@@ -16,44 +25,9 @@ public class Main {
     }
 
     void stats(InputStream csv) {
-        Scanner scanner = new Scanner(csv);
-        scanner.nextLine(); // ignore first line
-        scanner.useDelimiter(", *|\n");
-        ArrayList<Integer> year = new ArrayList<>();
-        ArrayList<Integer> rides_mkm = new ArrayList<>();
-        ArrayList<Integer> coll_acc = new ArrayList<>();
-        ArrayList<Integer> coll_fatal = new ArrayList<>();
-        ArrayList<Integer> road_acc = new ArrayList<>();
-        ArrayList<Integer> road_fatal = new ArrayList<>();
-        ArrayList<Integer> move_acc = new ArrayList<>();
-        ArrayList<Integer> move_fatal = new ArrayList<>();
-        ArrayList<Integer> decade = new ArrayList<>();
-        while (scanner.hasNext()) {
-            year.add(scanner.nextInt());
-            rides_mkm.add(scanner.nextInt());
-            coll_acc.add(scanner.nextInt());
-            coll_fatal.add(scanner.nextInt());
-            road_acc.add(scanner.nextInt());
-            road_fatal.add(scanner.nextInt());
-            try {
-                move_acc.add(scanner.nextInt());
-            } catch (InputMismatchException e) {
-                if (scanner.hasNext("NA")) {
-                    move_acc.add(-1);
-                }
-            }
-            try {
-                move_fatal.add(scanner.nextInt());
-            } catch (InputMismatchException e) {
-                if (scanner.hasNext("NA")) {
-                    move_fatal.add(-1);
-                }
-            }
-            scanner.nextLine();
-        }
-        for (int i = 0; i < year.size(); i++) {
-            decade.add((year.get(i) - 1900) / 10);
-        }
+        readCSV(csv);
+        calcDecade();
+
         // sums per decade
         System.out.println("Total per decade ====================");
         Integer rides_mkm_sum = 0;
@@ -128,10 +102,10 @@ public class Main {
                                     "coll_fatal=%.2f, road_acc=%.2f, " +
                                     "road_fatal=%.2f, move_acc=%.2f, " +
                                     "move_fatal=%.2f",
-                            1900 + old_decade * 10, (double)rides_mkm_avg / decade_cnt,
-                            (double)coll_acc_avg / decade_cnt, (double)coll_fatal_avg / decade_cnt,
-                            (double)road_acc_avg / decade_cnt, (double)road_fatal_avg / decade_cnt,
-                            (double)move_acc_avg / move_acc_cnt, (double)move_fatal_avg / move_fatal_cnt));
+                            1900 + old_decade * 10, (double) rides_mkm_avg / decade_cnt,
+                            (double) coll_acc_avg / decade_cnt, (double) coll_fatal_avg / decade_cnt,
+                            (double) road_acc_avg / decade_cnt, (double) road_fatal_avg / decade_cnt,
+                            (double) move_acc_avg / move_acc_cnt, (double) move_fatal_avg / move_fatal_cnt));
                 }
                 old_decade = new_decade;
                 rides_mkm_avg = rides_mkm.get(i);
@@ -164,9 +138,44 @@ public class Main {
                         "coll_fatal=%.2f, road_acc=%.2f, " +
                         "road_fatal=%.2f, move_acc=%.2f, " +
                         "move_fatal=%.2f",
-                1900 + old_decade * 10, ((double)rides_mkm_avg) / decade_cnt,
-                ((double)coll_acc_avg) / decade_cnt, ((double)coll_fatal_avg) / decade_cnt,
-                ((double)road_acc_avg) / decade_cnt, ((double)road_fatal_avg) / decade_cnt,
-                ((double)move_acc_avg) / move_acc_cnt, ((double)move_fatal_avg) / move_fatal_cnt));
+                1900 + old_decade * 10, ((double) rides_mkm_avg) / decade_cnt,
+                ((double) coll_acc_avg) / decade_cnt, ((double) coll_fatal_avg) / decade_cnt,
+                ((double) road_acc_avg) / decade_cnt, ((double) road_fatal_avg) / decade_cnt,
+                ((double) move_acc_avg) / move_acc_cnt, ((double) move_fatal_avg) / move_fatal_cnt));
+    }
+
+    private void calcDecade() {
+        for (int i = 0; i < year.size(); i++) {
+            decade.add((year.get(i) - 1900) / 10);
+        }
+    }
+
+    private void readCSV(InputStream csv) {
+        Scanner scanner = new Scanner(csv);
+        scanner.nextLine(); // ignore first line
+        scanner.useDelimiter(", *|\n");
+        while (scanner.hasNext()) {
+            year.add(scanner.nextInt());
+            rides_mkm.add(scanner.nextInt());
+            coll_acc.add(scanner.nextInt());
+            coll_fatal.add(scanner.nextInt());
+            road_acc.add(scanner.nextInt());
+            road_fatal.add(scanner.nextInt());
+            try {
+                move_acc.add(scanner.nextInt());
+            } catch (InputMismatchException e) {
+                if (scanner.hasNext("NA")) {
+                    move_acc.add(-1);
+                }
+            }
+            try {
+                move_fatal.add(scanner.nextInt());
+            } catch (InputMismatchException e) {
+                if (scanner.hasNext("NA")) {
+                    move_fatal.add(-1);
+                }
+            }
+            scanner.nextLine();
+        }
     }
 }
