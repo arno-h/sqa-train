@@ -32,7 +32,7 @@ public class Main {
         int old_decade = -1;
         for (int i = 0; i < trainData.numRows(); i++) {
             YearStats yearStats = trainData.getRow(i);
-            Integer new_decade = yearStats.decade;
+            Integer new_decade = yearStats.getDecade();
             if (new_decade.compareTo(old_decade) != 0) {
                 if (old_decade != -1) {
                     System.out.printf(
@@ -88,7 +88,7 @@ public class Main {
         old_decade = -1;
         for (int i = 0; i < trainData.numRows(); i++) {
             YearStats yearStats = trainData.getRow(i);
-            Integer new_decade = yearStats.decade;
+            Integer new_decade = yearStats.getDecade();
             if (new_decade.compareTo(old_decade) != 0) {
                 if (old_decade != -1) {
                     System.out.printf(

@@ -40,7 +40,6 @@ public class TrainData {
                     yearStats.moveFatal = null;
                 }
             }
-            yearStats.calcDecade();
             data.add(yearStats);
             scanner.nextLine();
         }
