@@ -16,7 +16,6 @@ public class Main {
         File csv = new File(pathURL.toURI());
         TrainData trainData = new TrainData();
         trainData.readCSV(new FileInputStream(csv));
-        trainData.calcDecade();
         main.stats(trainData);
     }
 
@@ -31,8 +30,9 @@ public class Main {
         Integer move_acc_sum = 0;
         Integer move_fatal_sum = 0;
         int old_decade = -1;
-        for (int i = 0; i < trainData.decade.size(); i++) {
-            Integer new_decade = trainData.decade.get(i);
+        for (int i = 0; i < trainData.numRows(); i++) {
+            YearStats yearStats = trainData.getRow(i);
+            Integer new_decade = yearStats.decade;
             if (new_decade.compareTo(old_decade) != 0) {
                 if (old_decade != -1) {
                     System.out.printf(
@@ -46,21 +46,21 @@ public class Main {
                             move_acc_sum, move_fatal_sum);
                 }
                 old_decade = new_decade;
-                rides_mkm_sum = trainData.rides_mkm.get(i);
-                coll_acc_sum = trainData.coll_acc.get(i);
-                coll_fatal_sum = trainData.coll_fatal.get(i);
-                road_acc_sum = trainData.road_acc.get(i);
-                road_fatal_sum = trainData.road_fatal.get(i);
-                move_acc_sum = trainData.move_acc.get(i);
-                move_fatal_sum = trainData.move_fatal.get(i);
+                rides_mkm_sum = yearStats.rides_mkm;
+                coll_acc_sum = yearStats.coll_acc;
+                coll_fatal_sum = yearStats.coll_fatal;
+                road_acc_sum = yearStats.road_acc;
+                road_fatal_sum = yearStats.road_fatal;
+                move_acc_sum = yearStats.move_acc;
+                move_fatal_sum = yearStats.move_fatal;
             } else {
-                rides_mkm_sum += trainData.rides_mkm.get(i);
-                coll_acc_sum += trainData.coll_acc.get(i);
-                coll_fatal_sum += trainData.coll_fatal.get(i);
-                road_acc_sum += trainData.road_acc.get(i);
-                road_fatal_sum += trainData.road_fatal.get(i);
-                move_acc_sum += trainData.move_acc.get(i) < 0 ? 0 : trainData.move_acc.get(i);
-                move_fatal_sum += trainData.move_fatal.get(i) < 0 ? 0 : trainData.move_fatal.get(i);
+                rides_mkm_sum += yearStats.rides_mkm;
+                coll_acc_sum += yearStats.coll_acc;
+                coll_fatal_sum += yearStats.coll_fatal;
+                road_acc_sum += yearStats.road_acc;
+                road_fatal_sum += yearStats.road_fatal;
+                move_acc_sum += yearStats.move_acc == null ? 0 : yearStats.move_acc;
+                move_fatal_sum += yearStats.move_fatal == null ? 0 : yearStats.move_fatal;
             }
         }
         System.out.printf(
@@ -86,8 +86,9 @@ public class Main {
         int move_fatal_cnt = 0;
         int decade_cnt = 0;
         old_decade = -1;
-        for (int i = 0; i < trainData.decade.size(); i++) {
-            Integer new_decade = trainData.decade.get(i);
+        for (int i = 0; i < trainData.numRows(); i++) {
+            YearStats yearStats = trainData.getRow(i);
+            Integer new_decade = yearStats.decade;
             if (new_decade.compareTo(old_decade) != 0) {
                 if (old_decade != -1) {
                     System.out.printf(
@@ -101,27 +102,27 @@ public class Main {
                             (double) move_acc_avg / move_acc_cnt, (double) move_fatal_avg / move_fatal_cnt);
                 }
                 old_decade = new_decade;
-                rides_mkm_avg = trainData.rides_mkm.get(i);
-                coll_acc_avg = trainData.coll_acc.get(i);
-                coll_fatal_avg = trainData.coll_fatal.get(i);
-                road_acc_avg = trainData.road_acc.get(i);
-                road_fatal_avg = trainData.road_fatal.get(i);
-                move_acc_avg = trainData.move_acc.get(i);
-                move_fatal_avg = trainData.move_fatal.get(i);
+                rides_mkm_avg = yearStats.rides_mkm;
+                coll_acc_avg = yearStats.coll_acc;
+                coll_fatal_avg = yearStats.coll_fatal;
+                road_acc_avg = yearStats.road_acc;
+                road_fatal_avg = yearStats.road_fatal;
+                move_acc_avg = yearStats.move_acc;
+                move_fatal_avg = yearStats.move_fatal;
                 decade_cnt = 1;
             } else {
                 decade_cnt++;
-                rides_mkm_avg += trainData.rides_mkm.get(i);
-                coll_acc_avg += trainData.coll_acc.get(i);
-                coll_fatal_avg += trainData.coll_fatal.get(i);
-                road_acc_avg += trainData.road_acc.get(i);
-                road_fatal_avg += trainData.road_fatal.get(i);
-                if (trainData.move_acc.get(i) >= 0) {
-                    move_acc_avg += trainData.move_acc.get(i);
+                rides_mkm_avg += yearStats.rides_mkm;
+                coll_acc_avg += yearStats.coll_acc;
+                coll_fatal_avg += yearStats.coll_fatal;
+                road_acc_avg += yearStats.road_acc;
+                road_fatal_avg += yearStats.road_fatal;
+                if (yearStats.move_acc != null) {
+                    move_acc_avg += yearStats.move_acc;
                     move_acc_cnt++;
                 }
-                if (trainData.move_fatal.get(i) >= 0) {
-                    move_fatal_avg += trainData.move_fatal.get(i);
+                if (yearStats.move_fatal != null) {
+                    move_fatal_avg += yearStats.move_fatal;
                     move_fatal_cnt++;
                 }
             }

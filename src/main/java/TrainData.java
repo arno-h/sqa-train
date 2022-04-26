@@ -4,20 +4,14 @@ import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class TrainData {
-    ArrayList<Integer> year = new ArrayList<>();
-    ArrayList<Integer> rides_mkm = new ArrayList<>();
-    ArrayList<Integer> coll_acc = new ArrayList<>();
-    ArrayList<Integer> coll_fatal = new ArrayList<>();
-    ArrayList<Integer> road_acc = new ArrayList<>();
-    ArrayList<Integer> road_fatal = new ArrayList<>();
-    ArrayList<Integer> move_acc = new ArrayList<>();
-    ArrayList<Integer> move_fatal = new ArrayList<>();
-    ArrayList<Integer> decade = new ArrayList<>();
+    private final ArrayList<YearStats> data = new ArrayList<>();
 
-    void calcDecade() {
-        for (Integer integer : year) {
-            decade.add((integer - 1900) / 10);
-        }
+    public YearStats getRow(int row)  {
+        return data.get(row);
+    }
+
+    public int numRows() {
+        return data.size();
     }
 
     void readCSV(InputStream csv) {
@@ -25,26 +19,29 @@ public class TrainData {
         scanner.nextLine(); // ignore first line
         scanner.useDelimiter(", *|\n");
         while (scanner.hasNext()) {
-            year.add(scanner.nextInt());
-            rides_mkm.add(scanner.nextInt());
-            coll_acc.add(scanner.nextInt());
-            coll_fatal.add(scanner.nextInt());
-            road_acc.add(scanner.nextInt());
-            road_fatal.add(scanner.nextInt());
+            YearStats yearStats = new YearStats();
+            yearStats.year += scanner.nextInt();
+            yearStats.rides_mkm += scanner.nextInt();
+            yearStats.coll_acc += scanner.nextInt();
+            yearStats.coll_fatal += scanner.nextInt();
+            yearStats.road_acc += scanner.nextInt();
+            yearStats.road_fatal += scanner.nextInt();
             try {
-                move_acc.add(scanner.nextInt());
+                yearStats.move_acc += scanner.nextInt();
             } catch (InputMismatchException e) {
                 if (scanner.hasNext("NA")) {
-                    move_acc.add(-1);
+                    yearStats.move_acc = null;
                 }
             }
             try {
-                move_fatal.add(scanner.nextInt());
+                yearStats.move_fatal += scanner.nextInt();
             } catch (InputMismatchException e) {
                 if (scanner.hasNext("NA")) {
-                    move_fatal.add(-1);
+                    yearStats.move_fatal = null;
                 }
             }
+            yearStats.calcDecade();
+            data.add(yearStats);
             scanner.nextLine();
         }
     }
