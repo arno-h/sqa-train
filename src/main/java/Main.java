@@ -46,21 +46,21 @@ public class Main {
                             move_acc_sum, move_fatal_sum);
                 }
                 old_decade = new_decade;
-                rides_mkm_sum = yearStats.rides_mkm;
-                coll_acc_sum = yearStats.coll_acc;
-                coll_fatal_sum = yearStats.coll_fatal;
-                road_acc_sum = yearStats.road_acc;
-                road_fatal_sum = yearStats.road_fatal;
-                move_acc_sum = yearStats.move_acc;
-                move_fatal_sum = yearStats.move_fatal;
+                rides_mkm_sum = yearStats.ridesMkm;
+                coll_acc_sum = yearStats.collAcc;
+                coll_fatal_sum = yearStats.collFatal;
+                road_acc_sum = yearStats.roadAcc;
+                road_fatal_sum = yearStats.roadFatal;
+                move_acc_sum = yearStats.moveAcc;
+                move_fatal_sum = yearStats.moveFatal;
             } else {
-                rides_mkm_sum += yearStats.rides_mkm;
-                coll_acc_sum += yearStats.coll_acc;
-                coll_fatal_sum += yearStats.coll_fatal;
-                road_acc_sum += yearStats.road_acc;
-                road_fatal_sum += yearStats.road_fatal;
-                move_acc_sum += yearStats.move_acc == null ? 0 : yearStats.move_acc;
-                move_fatal_sum += yearStats.move_fatal == null ? 0 : yearStats.move_fatal;
+                rides_mkm_sum += yearStats.ridesMkm;
+                coll_acc_sum += yearStats.collAcc;
+                coll_fatal_sum += yearStats.collFatal;
+                road_acc_sum += yearStats.roadAcc;
+                road_fatal_sum += yearStats.roadFatal;
+                move_acc_sum += yearStats.moveAcc == null ? 0 : yearStats.moveAcc;
+                move_fatal_sum += yearStats.moveFatal == null ? 0 : yearStats.moveFatal;
             }
         }
         System.out.printf(
@@ -102,27 +102,27 @@ public class Main {
                             (double) move_acc_avg / move_acc_cnt, (double) move_fatal_avg / move_fatal_cnt);
                 }
                 old_decade = new_decade;
-                rides_mkm_avg = yearStats.rides_mkm;
-                coll_acc_avg = yearStats.coll_acc;
-                coll_fatal_avg = yearStats.coll_fatal;
-                road_acc_avg = yearStats.road_acc;
-                road_fatal_avg = yearStats.road_fatal;
-                move_acc_avg = yearStats.move_acc;
-                move_fatal_avg = yearStats.move_fatal;
+                rides_mkm_avg = yearStats.ridesMkm;
+                coll_acc_avg = yearStats.collAcc;
+                coll_fatal_avg = yearStats.collFatal;
+                road_acc_avg = yearStats.roadAcc;
+                road_fatal_avg = yearStats.roadFatal;
+                move_acc_avg = yearStats.moveAcc;
+                move_fatal_avg = yearStats.moveFatal;
                 decade_cnt = 1;
             } else {
                 decade_cnt++;
-                rides_mkm_avg += yearStats.rides_mkm;
-                coll_acc_avg += yearStats.coll_acc;
-                coll_fatal_avg += yearStats.coll_fatal;
-                road_acc_avg += yearStats.road_acc;
-                road_fatal_avg += yearStats.road_fatal;
-                if (yearStats.move_acc != null) {
-                    move_acc_avg += yearStats.move_acc;
+                rides_mkm_avg += yearStats.ridesMkm;
+                coll_acc_avg += yearStats.collAcc;
+                coll_fatal_avg += yearStats.collFatal;
+                road_acc_avg += yearStats.roadAcc;
+                road_fatal_avg += yearStats.roadFatal;
+                if (yearStats.moveAcc != null) {
+                    move_acc_avg += yearStats.moveAcc;
                     move_acc_cnt++;
                 }
-                if (yearStats.move_fatal != null) {
-                    move_fatal_avg += yearStats.move_fatal;
+                if (yearStats.moveFatal != null) {
+                    move_fatal_avg += yearStats.moveFatal;
                     move_fatal_cnt++;
                 }
             }

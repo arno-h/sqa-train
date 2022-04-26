@@ -1,12 +1,12 @@
 public class YearStats {
     Integer year = 0;
-    Integer rides_mkm = 0;
-    Integer coll_acc = 0;
-    Integer coll_fatal = 0;
-    Integer road_acc = 0;
-    Integer road_fatal = 0;
-    Integer move_acc = 0;
-    Integer move_fatal = 0;
+    Integer ridesMkm = 0;
+    Integer collAcc = 0;
+    Integer collFatal = 0;
+    Integer roadAcc = 0;
+    Integer roadFatal = 0;
+    Integer moveAcc = 0;
+    Integer moveFatal = 0;
     Integer decade = 0;
 
     void calcDecade() {
