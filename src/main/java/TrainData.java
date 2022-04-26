@@ -20,12 +20,12 @@ public class TrainData {
         scanner.useDelimiter(", *|\n");
         while (scanner.hasNext()) {
             YearStats yearStats = new YearStats();
-            yearStats.year += scanner.nextInt();
-            yearStats.ridesMkm += scanner.nextInt();
-            yearStats.collAcc += scanner.nextInt();
-            yearStats.collFatal += scanner.nextInt();
-            yearStats.roadAcc += scanner.nextInt();
-            yearStats.roadFatal += scanner.nextInt();
+            yearStats.year = scanner.nextInt();
+            yearStats.ridesMkm = scanner.nextInt();
+            yearStats.collAcc = scanner.nextInt();
+            yearStats.collFatal = scanner.nextInt();
+            yearStats.roadAcc = scanner.nextInt();
+            yearStats.roadFatal = scanner.nextInt();
             try {
                 yearStats.moveAcc += scanner.nextInt();
             } catch (InputMismatchException e) {
