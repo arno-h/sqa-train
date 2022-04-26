@@ -1,5 +1,7 @@
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.InputMismatchException;
@@ -9,11 +11,11 @@ public class Main {
 
     public static void main(String[] args) throws IOException, URISyntaxException {
         Main main = new Main();
-        main.stats();
+        File csv = new File(Main.class.getResource("BritishTrainFatalities.csv").toURI());
+        main.stats(new FileInputStream(csv));
     }
 
-    void stats() throws IOException, URISyntaxException {
-        File csv = new File(getClass().getResource("BritishTrainFatalities.csv").toURI());
+    void stats(InputStream csv) {
         Scanner scanner = new Scanner(csv);
         scanner.nextLine(); // ignore first line
         scanner.useDelimiter(", *|\n");
