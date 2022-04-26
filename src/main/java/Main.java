@@ -16,6 +16,7 @@ public class Main {
         TrainData trainData = new TrainData();
         trainData.readCSV(new FileInputStream(csv));
         DecadeStats decadeStats = new DecadeStats(trainData);
-        decadeStats.stats();
+        decadeStats.total();
+        decadeStats.average();
     }
 }
