@@ -1,10 +1,17 @@
-import java.io.InputStream;
+import java.io.*;
+import java.net.URISyntaxException;
+import java.net.URL;
 import java.util.ArrayList;
-import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class TrainData {
     private final ArrayList<YearStats> data = new ArrayList<>();
+    private final Scanner scanner;
+
+    public TrainData(InputStream csv) {
+        this.scanner = new Scanner(csv);
+        scanner.useDelimiter(", *|\n");
+    }
 
     public YearStats getRow(int row)  {
         return data.get(row);
@@ -14,29 +21,49 @@ public class TrainData {
         return data.size();
     }
 
-    void readCSV(InputStream csv) {
-        Scanner scanner = new Scanner(csv);
+    private void readCSV() {
         scanner.nextLine(); // ignore first line
-        scanner.useDelimiter(", *|\n");
         while (scanner.hasNext()) {
             YearStats yearStats = new YearStats();
             yearStats.year = scanner.nextInt();
-            yearStats.ridesMkm = readFloat(scanner);
-            yearStats.collAcc = readFloat(scanner);
-            yearStats.collFatal = readFloat(scanner);
-            yearStats.roadAcc = readFloat(scanner);
-            yearStats.roadFatal = readFloat(scanner);
-            yearStats.moveAcc = readFloat(scanner);
-            yearStats.moveFatal = readFloat(scanner);
+            yearStats.ridesMkm = readFloat();
+            yearStats.collAcc = readFloat();
+            yearStats.collFatal = readFloat();
+            yearStats.roadAcc = readFloat();
+            yearStats.roadFatal = readFloat();
+            yearStats.moveAcc = readFloat();
+            yearStats.moveFatal = readFloat();
             data.add(yearStats);
         }
     }
 
-    Float readFloat(Scanner scanner) {
+    private Float readFloat() {
         if (scanner.hasNext("NA")) {
             scanner.next("NA");
             return null;
         }
         return scanner.nextFloat();
+    }
+
+    public static TrainData fromCSVResource(String resourceName) {
+        URL pathURL = TrainData.class.getResource(resourceName);
+        if (pathURL == null) {
+            return null;
+        }
+        try {
+            File csv = new File(pathURL.toURI());
+            TrainData trainData = new TrainData(new FileInputStream(csv));
+            trainData.readCSV();
+            return trainData;
+        } catch(URISyntaxException | FileNotFoundException e) {
+            return null;
+        }
+    }
+
+    public static TrainData fromString(String csv) {
+        ByteArrayInputStream csvStream = new ByteArrayInputStream(csv.getBytes());
+        TrainData trainData = new TrainData(csvStream);
+        trainData.readCSV();
+        return trainData;
     }
 }
