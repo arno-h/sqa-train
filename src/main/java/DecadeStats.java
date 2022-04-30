@@ -1,3 +1,6 @@
+import java.util.ArrayList;
+import java.util.List;
+
 public class DecadeStats {
     private final TrainData trainData;
 
@@ -5,8 +8,8 @@ public class DecadeStats {
         this.trainData = trainData;
     }
 
-    void total() {
-        System.out.println("Total per decade ====================");
+    public List<YearStats> total() {
+        ArrayList<YearStats> result = new ArrayList<>();
         YearStats sumStats = new YearStats();
         int old_decade = -1;
         for (int i = 0; i < trainData.numRows(); i++) {
@@ -14,31 +17,20 @@ public class DecadeStats {
             Integer new_decade = yearStats.getDecade();
             if (new_decade.compareTo(old_decade) != 0) {
                 if (old_decade != -1) {
-                    printTotal(old_decade, sumStats);
+                    result.add(sumStats);
                 }
                 old_decade = new_decade;
                 sumStats = new YearStats();
             }
             sumStats.addStats(yearStats);
         }
-        printTotal(old_decade, sumStats);
+        result.add(sumStats);
+        return result;
     }
 
-    private void printTotal(int decade, YearStats sumStats) {
-        System.out.printf(
-                "Decade %d: " + "rides_mkm=%d, coll_acc=%d, " +
-                        "coll_fatal=%d, road_acc=%d, " +
-                        "road_fatal=%d, move_acc=%d, " +
-                        "move_fatal=%d\n",
-                1900 + decade * 10, sumStats.ridesMkm,
-                sumStats.collAcc, sumStats.collFatal,
-                sumStats.roadAcc, sumStats.roadFatal,
-                sumStats.moveAcc, sumStats.moveFatal);
-    }
-
-    public void average() {
-        System.out.println("\nAverage per decade ====================");
+    public List<YearStats> average() {
         int old_decade = -1;
+        ArrayList<YearStats> result = new ArrayList<>();
         YearStats sumStats = new YearStats();
         YearStats countStats = new YearStats();
         for (int i = 0; i < trainData.numRows(); i++) {
@@ -46,7 +38,7 @@ public class DecadeStats {
             Integer new_decade = yearStats.getDecade();
             if (new_decade.compareTo(old_decade) != 0) {
                 if (old_decade != -1) {
-                    printAverage(old_decade, sumStats, countStats);
+                    result.add(calcAverage(sumStats, countStats));
                 }
                 old_decade = new_decade;
                 sumStats = new YearStats();
@@ -55,18 +47,21 @@ public class DecadeStats {
             sumStats.addStats(yearStats);
             countStats.countStats(yearStats);
         }
-        printAverage(old_decade, sumStats, countStats);
+        result.add(calcAverage(sumStats, countStats));
+        return result;
     }
 
-    private void printAverage(int decade, YearStats sumStats, YearStats countStats) {
-        System.out.printf(
-                "Decade %d: " + "rides_mkm=%.2f, coll_acc=%.2f, " +
-                        "coll_fatal=%.2f, road_acc=%.2f, " +
-                        "road_fatal=%.2f, move_acc=%.2f, " +
-                        "move_fatal=%.2f\n",
-                1900 + decade * 10, (double) sumStats.ridesMkm / countStats.ridesMkm,
-                (double) sumStats.collAcc / countStats.collAcc, (double) sumStats.collFatal / countStats.collFatal,
-                (double) sumStats.roadAcc / countStats.roadAcc, (double) sumStats.roadFatal / countStats.roadFatal,
-                (double) sumStats.moveAcc / countStats.moveAcc, (double) sumStats.moveFatal / countStats.moveFatal);
+    private YearStats calcAverage(YearStats sum, YearStats count) {
+        YearStats result = new YearStats();
+        result.year = sum.year;
+        result.ridesMkm = sum.ridesMkm / count.ridesMkm;
+        result.collAcc = sum.collAcc / count.collAcc;
+        result.collFatal = sum.collFatal / count.collFatal;
+        result.roadAcc = sum.roadAcc / count.roadAcc;
+        result.roadFatal = sum.roadFatal / count.roadFatal;
+        result.moveAcc = sum.moveAcc / count.moveAcc;
+        result.moveFatal = sum.moveFatal / count.moveFatal;
+
+        return result;
     }
 }

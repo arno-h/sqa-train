@@ -1,12 +1,12 @@
 public class YearStats {
     Integer year = 0;
-    Integer ridesMkm = 0;
-    Integer collAcc = 0;
-    Integer collFatal = 0;
-    Integer roadAcc = 0;
-    Integer roadFatal = 0;
-    Integer moveAcc = 0;
-    Integer moveFatal = 0;
+    Float ridesMkm = 0f;
+    Float collAcc = 0f;
+    Float collFatal = 0f;
+    Float roadAcc = 0f;
+    Float roadFatal = 0f;
+    Float moveAcc = 0f;
+    Float moveFatal = 0f;
 
     Integer getDecade() {
         return (year - 1900) / 10;
@@ -23,7 +23,7 @@ public class YearStats {
         moveFatal += zeroForNull(other.moveFatal);
     }
 
-    private Integer zeroForNull(Integer num) {
+    private Float zeroForNull(Float num) {
         return num == null ? 0 : num;
     }
 
@@ -38,7 +38,13 @@ public class YearStats {
         moveFatal += asCount(other.moveFatal);
     }
 
-    private Integer asCount(Integer num) {
-        return num == null ? 0 : 1;
+    private Float asCount(Float num) {
+        return num == null ? 0f : 1f;
+    }
+
+    public String toString() {
+        return String.format("Decade %d: rides_mkm=%.2f, coll_acc=%.2f, coll_fatal=%.2f, " +
+                "road_acc=%.2f, road_fatal=%.2f, move_acc=%.2f, move_fatal=%.2f",
+                getDecade() * 10 + 1900, ridesMkm, collAcc, collFatal, roadAcc, roadFatal, moveAcc, moveFatal);
     }
 }

@@ -3,6 +3,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.net.URL;
+import java.util.List;
 
 public class Main {
 
@@ -15,8 +16,19 @@ public class Main {
         File csv = new File(pathURL.toURI());
         TrainData trainData = new TrainData();
         trainData.readCSV(new FileInputStream(csv));
+
         DecadeStats decadeStats = new DecadeStats(trainData);
-        decadeStats.total();
-        decadeStats.average();
+
+        List<YearStats> sumStats = decadeStats.total();
+        System.out.println("Total per decade ====================");
+        for (YearStats decade: sumStats) {
+            System.out.println(decade);
+        }
+
+        List<YearStats> avgStats = decadeStats.average();
+        System.out.println("\nAverage per decade ====================");
+        for (YearStats decade: avgStats) {
+            System.out.println(decade);
+        }
     }
 }
