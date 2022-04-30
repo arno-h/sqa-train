@@ -21,27 +21,22 @@ public class TrainData {
         while (scanner.hasNext()) {
             YearStats yearStats = new YearStats();
             yearStats.year = scanner.nextInt();
-            yearStats.ridesMkm = scanner.nextFloat();
-            yearStats.collAcc = scanner.nextFloat();
-            yearStats.collFatal = scanner.nextFloat();
-            yearStats.roadAcc = scanner.nextFloat();
-            yearStats.roadFatal = scanner.nextFloat();
-            try {
-                yearStats.moveAcc += scanner.nextFloat();
-            } catch (InputMismatchException e) {
-                if (scanner.hasNext("NA")) {
-                    yearStats.moveAcc = null;
-                }
-            }
-            try {
-                yearStats.moveFatal += scanner.nextFloat();
-            } catch (InputMismatchException e) {
-                if (scanner.hasNext("NA")) {
-                    yearStats.moveFatal = null;
-                }
-            }
+            yearStats.ridesMkm = readFloat(scanner);
+            yearStats.collAcc = readFloat(scanner);
+            yearStats.collFatal = readFloat(scanner);
+            yearStats.roadAcc = readFloat(scanner);
+            yearStats.roadFatal = readFloat(scanner);
+            yearStats.moveAcc = readFloat(scanner);
+            yearStats.moveFatal = readFloat(scanner);
             data.add(yearStats);
-            scanner.nextLine();
         }
+    }
+
+    Float readFloat(Scanner scanner) {
+        if (scanner.hasNext("NA")) {
+            scanner.next("NA");
+            return null;
+        }
+        return scanner.nextFloat();
     }
 }

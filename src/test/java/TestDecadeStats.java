@@ -5,6 +5,7 @@ import java.io.ByteArrayInputStream;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 
 public class TestDecadeStats {
     private DecadeStats decadeStats;
@@ -73,5 +74,31 @@ public class TestDecadeStats {
         assertEquals(51, teens.roadFatal, 0);
         assertEquals(61, teens.moveAcc, 0);
         assertEquals(71, teens.moveFatal, 0);
+    }
+
+    @Test
+    public void testNAValues() {
+        String csv = "first line\n" +
+                "1990,NA,111,10,0,1,NA,1\n"+
+                "1994,200,222,NA,0,1,NA,5\n"+
+                "1999,300,333,NA,0,1,NA,3\n"+
+                "2015,11,21,31,41,51,61,NA\n";
+
+        ByteArrayInputStream csvStream = new ByteArrayInputStream(csv.getBytes());
+        TrainData trainData = new TrainData();
+        trainData.readCSV(csvStream);
+        DecadeStats decadeStatsNA = new DecadeStats(trainData);
+
+        List<YearStats> total = decadeStatsNA.total();
+        assertEquals(500, total.get(0).ridesMkm, 0);
+        assertEquals(10, total.get(0).collFatal, 0);
+        assertEquals(0, total.get(0).moveAcc, 0);
+        assertEquals(0, total.get(1).moveFatal, 0);
+
+        List<YearStats> average = decadeStatsNA.average();
+        assertEquals(250, average.get(0).ridesMkm, 0);
+        assertEquals(10, average.get(0).collFatal, 0);
+        assertEquals(0, average.get(0).moveAcc, 0);
+        assertEquals(0, average.get(1).moveFatal, 0);
     }
 }

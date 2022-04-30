@@ -8,6 +8,10 @@ public class DecadeStats {
         this.trainData = trainData;
     }
 
+    /**
+     * Calculates sum of properties group by decade.
+     * NA values are treated as zero.
+     */
     public List<YearStats> total() {
         ArrayList<YearStats> result = new ArrayList<>();
         YearStats sumStats = new YearStats();
@@ -28,6 +32,11 @@ public class DecadeStats {
         return result;
     }
 
+    /**
+     * Calculates average of properties grouped by decade.
+     * NA values are treated as zero.
+     * Average of NA-only values is also set to zero (for consistency).
+     */
     public List<YearStats> average() {
         int old_decade = -1;
         ArrayList<YearStats> result = new ArrayList<>();
@@ -54,14 +63,21 @@ public class DecadeStats {
     private YearStats calcAverage(YearStats sum, YearStats count) {
         YearStats result = new YearStats();
         result.year = sum.year;
-        result.ridesMkm = sum.ridesMkm / count.ridesMkm;
-        result.collAcc = sum.collAcc / count.collAcc;
-        result.collFatal = sum.collFatal / count.collFatal;
-        result.roadAcc = sum.roadAcc / count.roadAcc;
-        result.roadFatal = sum.roadFatal / count.roadFatal;
-        result.moveAcc = sum.moveAcc / count.moveAcc;
-        result.moveFatal = sum.moveFatal / count.moveFatal;
+        result.ridesMkm = zeroSafeDivide(sum.ridesMkm, count.ridesMkm);
+        result.collAcc = zeroSafeDivide(sum.collAcc, count.collAcc);
+        result.collFatal = zeroSafeDivide(sum.collFatal, count.collFatal);
+        result.roadAcc = zeroSafeDivide(sum.roadAcc, count.roadAcc);
+        result.roadFatal = zeroSafeDivide(sum.roadFatal, count.roadFatal);
+        result.moveAcc = zeroSafeDivide(sum.moveAcc, count.moveAcc);
+        result.moveFatal = zeroSafeDivide(sum.moveFatal, count.moveFatal);
 
         return result;
+    }
+
+    private Float zeroSafeDivide(Float sum, Float count) {
+        if (count == 0) {
+            return 0f;
+        }
+        return sum / count;
     }
 }
