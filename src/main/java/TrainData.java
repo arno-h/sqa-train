@@ -1,4 +1,6 @@
-import java.io.InputStream;
+import java.io.*;
+import java.net.URISyntaxException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -30,5 +32,28 @@ public class TrainData {
             scanner.nextLine();
             data.add(yearStats);
         }
+    }
+
+
+    public static TrainData fromCSVResource(String resourceName) {
+        URL pathURL = TrainData.class.getResource(resourceName);
+        if (pathURL == null) {
+            return null;
+        }
+        try {
+            File csv = new File(pathURL.toURI());
+            TrainData trainData = new TrainData();
+            trainData.readCSV(new FileInputStream(csv));
+            return trainData;
+        } catch(URISyntaxException | FileNotFoundException e) {
+            return null;
+        }
+    }
+
+    public static TrainData fromString(String csv) {
+        ByteArrayInputStream csvStream = new ByteArrayInputStream(csv.getBytes());
+        TrainData trainData = new TrainData();
+        trainData.readCSV(csvStream);
+        return trainData;
     }
 }

@@ -2,7 +2,6 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.io.ByteArrayInputStream;
 import java.util.List;
 
 public class TestDecadeStats {
@@ -17,8 +16,7 @@ public class TestDecadeStats {
                 "2000,503,1,4,3,3,18,18\n" +
                 "2001,508,0,0,4,13,23,23\n" +
                 "2002,516,1,7,3,3,30,30\n";
-        TrainData trainData = new TrainData();
-        trainData.readCSV(new ByteArrayInputStream(csv.getBytes()));
+        TrainData trainData = TrainData.fromString(csv);
         decadeStats = new DecadeStats(trainData);
     }
 
@@ -51,13 +49,13 @@ public class TestDecadeStats {
         List<YearStats> result = decadeStats.average();
         // then
         YearStats nineties = result.get(1);
-        Assert.assertEquals(496, nineties.ridesMkm, 0.0001);
-        Assert.assertEquals(0.5, nineties.collAcc, 0.0001);
-        Assert.assertEquals(15.5, nineties.collFatal, 0.0001);
-        Assert.assertEquals(3, nineties.roadAcc, 0.0001);
-        Assert.assertEquals(3, nineties.roadFatal, 0.0001);
-        Assert.assertEquals(28, nineties.moveAcc, 0.0001);
-        Assert.assertEquals(28, nineties.moveFatal, 0.0001);
+        Assert.assertEquals(496, nineties.ridesMkm, 0.01);
+        Assert.assertEquals(0.5, nineties.collAcc, 0.01);
+        Assert.assertEquals(15.5, nineties.collFatal, 0.01);
+        Assert.assertEquals(3, nineties.roadAcc, 0.01);
+        Assert.assertEquals(3, nineties.roadFatal, 0.01);
+        Assert.assertEquals(28, nineties.moveAcc, 0.01);
+        Assert.assertEquals(28, nineties.moveFatal, 0.01);
         YearStats naughties = result.get(2);
         Assert.assertEquals(509, naughties.ridesMkm, 0.01);
         Assert.assertEquals(0.67, naughties.collAcc, 0.01);
