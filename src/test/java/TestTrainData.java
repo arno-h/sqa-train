@@ -10,13 +10,13 @@ public class TestTrainData {
         TrainData trainData = new TrainData();
         trainData.readCSV(csv);
         assertEquals(1993, (int)trainData.getRow(0).year);
-        assertEquals(100, (int)trainData.getRow(0).rides_mkm);
-        assertEquals(200, (int)trainData.getRow(0).coll_acc);
-        assertEquals(300, (int)trainData.getRow(0).coll_fatal);
-        assertEquals(40, (int)trainData.getRow(0).road_acc);
-        assertEquals(50, (int)trainData.getRow(0).road_fatal);
-        assertEquals(6, (int)trainData.getRow(0).move_acc);
-        assertEquals(7, (int)trainData.getRow(0).move_fatal);
+        assertEquals(100, (int)trainData.getRow(0).ridesMkm);
+        assertEquals(200, (int)trainData.getRow(0).collAcc);
+        assertEquals(300, (int)trainData.getRow(0).collFatal);
+        assertEquals(40, (int)trainData.getRow(0).roadAcc);
+        assertEquals(50, (int)trainData.getRow(0).roadFatal);
+        assertEquals(6, (int)trainData.getRow(0).moveAcc);
+        assertEquals(7, (int)trainData.getRow(0).moveFatal);
     }
 
     @Test
@@ -25,12 +25,12 @@ public class TestTrainData {
         TrainData trainData = new TrainData();
         trainData.readCSV(csv);
         assertEquals(1994, (int)trainData.getRow(1).year);
-        assertEquals(11, (int)trainData.getRow(1).rides_mkm);
-        assertEquals(21, (int)trainData.getRow(1).coll_acc);
-        assertEquals(31, (int)trainData.getRow(1).coll_fatal);
-        assertEquals(41, (int)trainData.getRow(1).road_acc);
-        assertEquals(51, (int)trainData.getRow(1).road_fatal);
-        assertEquals(61, (int)trainData.getRow(1).move_acc);
-        assertEquals(71, (int)trainData.getRow(1).move_fatal);
+        assertEquals(11, (int)trainData.getRow(1).ridesMkm);
+        assertEquals(21, (int)trainData.getRow(1).collAcc);
+        assertEquals(31, (int)trainData.getRow(1).collFatal);
+        assertEquals(41, (int)trainData.getRow(1).roadAcc);
+        assertEquals(51, (int)trainData.getRow(1).roadFatal);
+        assertEquals(61, (int)trainData.getRow(1).moveAcc);
+        assertEquals(71, (int)trainData.getRow(1).moveFatal);
     }
 }
