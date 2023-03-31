@@ -21,6 +21,7 @@ public class Main {
 
         PrintWriter out = new PrintWriter(System.out, true);
         DecadeStats decadeStats = new DecadeStats(trainData, out);
-        decadeStats.stats();
+        decadeStats.total();
+        decadeStats.average();
     }
 }
