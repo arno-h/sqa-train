@@ -3,36 +3,33 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class TrainData {
-    final ArrayList<Integer> year = new ArrayList<>();
-    final ArrayList<Integer> rides_mkm = new ArrayList<>();
-    final ArrayList<Integer> coll_acc = new ArrayList<>();
-    final ArrayList<Integer> coll_fatal = new ArrayList<>();
-    final ArrayList<Integer> road_acc = new ArrayList<>();
-    final ArrayList<Integer> road_fatal = new ArrayList<>();
-    final ArrayList<Integer> move_acc = new ArrayList<>();
-    final ArrayList<Integer> move_fatal = new ArrayList<>();
-    final ArrayList<Integer> decade = new ArrayList<>();
+    private final ArrayList<YearStats> data = new ArrayList<>();
+
+    public YearStats getRow(int row) {
+        return data.get(row);
+    }
+
+    public int numRows() {
+        return data.size();
+    }
 
     public void readCSV(InputStream csv) {
         Scanner scanner = new Scanner(csv);
         scanner.nextLine(); // ignore first line
         scanner.useDelimiter(", *|\n");
         while (scanner.hasNext()) {
-            year.add(scanner.nextInt());
-            rides_mkm.add(scanner.nextInt());
-            coll_acc.add(scanner.nextInt());
-            coll_fatal.add(scanner.nextInt());
-            road_acc.add(scanner.nextInt());
-            road_fatal.add(scanner.nextInt());
-            move_acc.add(scanner.nextInt());
-            move_fatal.add(scanner.nextInt());
+            YearStats yearStats = new YearStats();
+            yearStats.year = scanner.nextInt();
+            yearStats.rides_mkm = scanner.nextInt();
+            yearStats.coll_acc = scanner.nextInt();
+            yearStats.coll_fatal = scanner.nextInt();
+            yearStats.road_acc = scanner.nextInt();
+            yearStats.road_fatal = scanner.nextInt();
+            yearStats.move_acc = scanner.nextInt();
+            yearStats.move_fatal = scanner.nextInt();
             scanner.nextLine();
-        }
-    }
-
-    public void calcDecade() {
-        for (Integer currentYear : year) {
-            decade.add((currentYear - 1900) / 10);
+            yearStats.calcDecade();
+            data.add(yearStats);
         }
     }
 }
