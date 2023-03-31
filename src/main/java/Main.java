@@ -1,7 +1,4 @@
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -13,10 +10,11 @@ public class Main {
 
         File csv = new File(Main.class.getResource("BritishTrainFatalities.csv").toURI());
         FileInputStream csvStream = new FileInputStream(csv);
-        main.stats(csvStream);
+        PrintWriter out = new PrintWriter(System.out, true);
+        main.stats(csvStream, out);
     }
 
-    void stats(InputStream csv) {
+    void stats(InputStream csv, PrintWriter out) {
         Scanner scanner = new Scanner(csv);
         scanner.nextLine(); // ignore first line
         scanner.useDelimiter(", *|\n");
@@ -44,7 +42,7 @@ public class Main {
             decade.add((year.get(i) - 1900) / 10);
         }
         // sums per decade
-        System.out.println("Total per decade ====================");
+        out.println("Total per decade ====================");
         Integer rides_mkm_sum = 0;
         Integer coll_acc_sum = 0;
         Integer coll_fatal_sum = 0;
@@ -57,7 +55,7 @@ public class Main {
             Integer new_decade = decade.get(i);
             if (new_decade != old_decade) {
                 if (old_decade != -1) {
-                    System.out.println(String.format(
+                    out.println(String.format(
                             "Decade %d: " + "rides_mkm=%d, coll_acc=%d, " +
                                     "coll_fatal=%d, road_acc=%d, " +
                                     "road_fatal=%d, move_acc=%d, " +
@@ -85,7 +83,7 @@ public class Main {
                 move_fatal_sum += move_fatal.get(i);
             }
         }
-        System.out.println(String.format(
+        out.println(String.format(
                 "Decade %d: " + "rides_mkm=%d, coll_acc=%d, " +
                         "coll_fatal=%d, road_acc=%d, " +
                         "road_fatal=%d, move_acc=%d, " +
@@ -96,7 +94,7 @@ public class Main {
                 move_acc_sum, move_fatal_sum));
 
         // average per decade
-        System.out.println("\nAverage per decade ====================");
+        out.println("\nAverage per decade ====================");
         Integer rides_mkm_avg = 0;
         Integer coll_acc_avg = 0;
         Integer coll_fatal_avg = 0;
@@ -110,7 +108,7 @@ public class Main {
             Integer new_decade = decade.get(i);
             if (new_decade != old_decade) {
                 if (old_decade != -1) {
-                    System.out.println(String.format(
+                    out.println(String.format(
                             "Decade %d: " + "rides_mkm=%.2f, coll_acc=%.2f, " +
                                     "coll_fatal=%.2f, road_acc=%.2f, " +
                                     "road_fatal=%.2f, move_acc=%.2f, " +
@@ -140,7 +138,7 @@ public class Main {
                 decade_cnt++;
             }
         }
-        System.out.println(String.format(
+        out.println(String.format(
                 "Decade %d: " + "rides_mkm=%.2f, coll_acc=%.2f, " +
                         "coll_fatal=%.2f, road_acc=%.2f, " +
                         "road_fatal=%.2f, move_acc=%.2f, " +
