@@ -33,7 +33,7 @@ public class Main {
         int old_decade = -1;
         for (int i = 0; i < trainData.numRows(); i++) {
             YearStats currentYear = trainData.getRow(i);
-            Integer new_decade = currentYear.decade;
+            Integer new_decade = currentYear.getDecade();
             if (new_decade != old_decade) {
                 if (old_decade != -1) {
                     out.printf("Decade %d: " + "rides_mkm=%d, coll_acc=%d, " +
@@ -85,7 +85,7 @@ public class Main {
         int decade_cnt = 0;
         for (int i = 0; i < trainData.numRows(); i++) {
             YearStats currentYear = trainData.getRow(i);
-            Integer new_decade = currentYear.decade;
+            Integer new_decade = currentYear.getDecade();
             if (new_decade != old_decade) {
                 if (old_decade != -1) {
                     out.printf("Decade %d: " + "rides_mkm=%.2f, coll_acc=%.2f, " +

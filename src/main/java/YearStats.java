@@ -7,9 +7,8 @@ public class YearStats {
     Integer roadFatal = 0;
     Integer moveAcc = 0;
     Integer moveFatal = 0;
-    Integer decade = 0;
 
-    void calcDecade() {
-        decade = (year - 1900) / 10;
+    public Integer getDecade() {
+        return (year - 1900) / 10;
     }
 }

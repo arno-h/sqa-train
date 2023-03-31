@@ -28,7 +28,6 @@ public class TrainData {
             yearStats.moveAcc = scanner.nextInt();
             yearStats.moveFatal = scanner.nextInt();
             scanner.nextLine();
-            yearStats.calcDecade();
             data.add(yearStats);
         }
     }
