@@ -5,9 +5,9 @@ import java.io.ByteArrayInputStream;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 
-public class TestEnd2End {
+public class TestDecadeStats {
     @Test
-    public void testEnd2End() {
+    public void testDecade() {
         String csv = "year,rides_mkm,coll_acc,coll_fatal,road_acc,road_fatal,move_acc,move_fatal\n" +
                 "1989,436,4,10,4,6,48,49\n" +
                 "1998,487,0,0,4,4,31,31\n" +
@@ -15,11 +15,13 @@ public class TestEnd2End {
                 "2000,503,1,4,3,3,18,18\n" +
                 "2001,508,0,0,4,13,23,23\n" +
                 "2002,516,1,7,3,3,30,30\n";
+        TrainData trainData = new TrainData();
+        trainData.readCSV(new ByteArrayInputStream(csv.getBytes()));
         StringWriter out = new StringWriter();
         PrintWriter outWriter = new PrintWriter(out);
-        Main trainStats = new Main();
+        DecadeStats decadeStats = new DecadeStats(trainData, outWriter);
         // when
-        trainStats.stats(new ByteArrayInputStream(csv.getBytes()), outWriter);
+        decadeStats.stats();
         // then
         String outStr = out.toString();
         // sum stats
