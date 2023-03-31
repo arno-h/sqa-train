@@ -9,7 +9,7 @@ public class YearStats {
     float moveFatal = 0;
 
     public int getDecade() {
-        return (year - 1900) / 10;
+        return (year / 10) * 10;
     }
 
     public void addStats(YearStats other) {
@@ -38,7 +38,7 @@ public class YearStats {
                         "coll_fatal=%.2f, road_acc=%.2f, " +
                         "road_fatal=%.2f, move_acc=%.2f, " +
                         "move_fatal=%.2f",
-                1900 + getDecade() * 10, ridesMkm, collAcc, collFatal,
+                getDecade(), ridesMkm, collAcc, collFatal,
                 roadAcc, roadFatal, moveAcc, moveFatal);
     }
 }
