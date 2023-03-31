@@ -1,18 +1,7 @@
 import java.io.*;
 import java.net.URISyntaxException;
-import java.util.ArrayList;
-import java.util.Scanner;
 
 public class Main {
-    ArrayList<Integer> year = new ArrayList<>();
-    ArrayList<Integer> rides_mkm = new ArrayList<>();
-    ArrayList<Integer> coll_acc = new ArrayList<>();
-    ArrayList<Integer> coll_fatal = new ArrayList<>();
-    ArrayList<Integer> road_acc = new ArrayList<>();
-    ArrayList<Integer> road_fatal = new ArrayList<>();
-    ArrayList<Integer> move_acc = new ArrayList<>();
-    ArrayList<Integer> move_fatal = new ArrayList<>();
-    ArrayList<Integer> decade = new ArrayList<>();
 
     public static void main(String[] args) throws IOException, URISyntaxException {
         Main main = new Main();
@@ -24,8 +13,9 @@ public class Main {
     }
 
     void stats(InputStream csv, PrintWriter out) {
-        readCSV(csv);
-        calcDecade();
+        TrainData trainData = new TrainData();
+        trainData.readCSV(csv);
+        trainData.calcDecade();
 
         // sums per decade
         out.println("Total per decade ====================");
@@ -37,8 +27,8 @@ public class Main {
         Integer move_acc_sum = 0;
         Integer move_fatal_sum = 0;
         Integer old_decade = -1;
-        for (int i = 0; i < decade.size(); i++) {
-            Integer new_decade = decade.get(i);
+        for (int i = 0; i < trainData.decade.size(); i++) {
+            Integer new_decade = trainData.decade.get(i);
             if (new_decade != old_decade) {
                 if (old_decade != -1) {
                     out.println(String.format(
@@ -52,21 +42,21 @@ public class Main {
                             move_acc_sum, move_fatal_sum));
                 }
                 old_decade = new_decade;
-                rides_mkm_sum = rides_mkm.get(i);
-                coll_acc_sum = coll_acc.get(i);
-                coll_fatal_sum = coll_fatal.get(i);
-                road_acc_sum = road_acc.get(i);
-                road_fatal_sum = road_fatal.get(i);
-                move_acc_sum = move_acc.get(i);
-                move_fatal_sum = move_fatal.get(i);
+                rides_mkm_sum = trainData.rides_mkm.get(i);
+                coll_acc_sum = trainData.coll_acc.get(i);
+                coll_fatal_sum = trainData.coll_fatal.get(i);
+                road_acc_sum = trainData.road_acc.get(i);
+                road_fatal_sum = trainData.road_fatal.get(i);
+                move_acc_sum = trainData.move_acc.get(i);
+                move_fatal_sum = trainData.move_fatal.get(i);
             } else {
-                rides_mkm_sum += rides_mkm.get(i);
-                coll_acc_sum += coll_acc.get(i);
-                coll_fatal_sum += coll_fatal.get(i);
-                road_acc_sum += road_acc.get(i);
-                road_fatal_sum += road_fatal.get(i);
-                move_acc_sum += move_acc.get(i);
-                move_fatal_sum += move_fatal.get(i);
+                rides_mkm_sum += trainData.rides_mkm.get(i);
+                coll_acc_sum += trainData.coll_acc.get(i);
+                coll_fatal_sum += trainData.coll_fatal.get(i);
+                road_acc_sum += trainData.road_acc.get(i);
+                road_fatal_sum += trainData.road_fatal.get(i);
+                move_acc_sum += trainData.move_acc.get(i);
+                move_fatal_sum += trainData.move_fatal.get(i);
             }
         }
         out.println(String.format(
@@ -90,8 +80,8 @@ public class Main {
         Integer move_fatal_avg = 0;
         old_decade = -1;
         int decade_cnt = 0;
-        for (int i = 0; i < decade.size(); i++) {
-            Integer new_decade = decade.get(i);
+        for (int i = 0; i < trainData.decade.size(); i++) {
+            Integer new_decade = trainData.decade.get(i);
             if (new_decade != old_decade) {
                 if (old_decade != -1) {
                     out.println(String.format(
@@ -105,22 +95,22 @@ public class Main {
                             (double) move_acc_avg / decade_cnt, (double) move_fatal_avg / decade_cnt));
                 }
                 old_decade = new_decade;
-                rides_mkm_avg = rides_mkm.get(i);
-                coll_acc_avg = coll_acc.get(i);
-                coll_fatal_avg = coll_fatal.get(i);
-                road_acc_avg = road_acc.get(i);
-                road_fatal_avg = road_fatal.get(i);
-                move_acc_avg = move_acc.get(i);
-                move_fatal_avg = move_fatal.get(i);
+                rides_mkm_avg = trainData.rides_mkm.get(i);
+                coll_acc_avg = trainData.coll_acc.get(i);
+                coll_fatal_avg = trainData.coll_fatal.get(i);
+                road_acc_avg = trainData.road_acc.get(i);
+                road_fatal_avg = trainData.road_fatal.get(i);
+                move_acc_avg = trainData.move_acc.get(i);
+                move_fatal_avg = trainData.move_fatal.get(i);
                 decade_cnt = 1;
             } else {
-                rides_mkm_avg += rides_mkm.get(i);
-                coll_acc_avg += coll_acc.get(i);
-                coll_fatal_avg += coll_fatal.get(i);
-                road_acc_avg += road_acc.get(i);
-                road_fatal_avg += road_fatal.get(i);
-                move_acc_avg += move_acc.get(i);
-                move_fatal_avg += move_fatal.get(i);
+                rides_mkm_avg += trainData.rides_mkm.get(i);
+                coll_acc_avg += trainData.coll_acc.get(i);
+                coll_fatal_avg += trainData.coll_fatal.get(i);
+                road_acc_avg += trainData.road_acc.get(i);
+                road_fatal_avg += trainData.road_fatal.get(i);
+                move_acc_avg += trainData.move_acc.get(i);
+                move_fatal_avg += trainData.move_fatal.get(i);
                 decade_cnt++;
             }
         }
@@ -133,28 +123,5 @@ public class Main {
                 ((double) coll_acc_avg) / decade_cnt, ((double) coll_fatal_avg) / decade_cnt,
                 ((double) road_acc_avg) / decade_cnt, ((double) road_fatal_avg) / decade_cnt,
                 ((double) move_acc_avg) / decade_cnt, ((double) move_fatal_avg) / decade_cnt));
-    }
-
-    private void calcDecade() {
-        for (Integer integer : year) {
-            decade.add((integer - 1900) / 10);
-        }
-    }
-
-    private void readCSV(InputStream csv) {
-        Scanner scanner = new Scanner(csv);
-        scanner.nextLine(); // ignore first line
-        scanner.useDelimiter(", *|\n");
-        while (scanner.hasNext()) {
-            year.add(scanner.nextInt());
-            rides_mkm.add(scanner.nextInt());
-            coll_acc.add(scanner.nextInt());
-            coll_fatal.add(scanner.nextInt());
-            road_acc.add(scanner.nextInt());
-            road_fatal.add(scanner.nextInt());
-            move_acc.add(scanner.nextInt());
-            move_fatal.add(scanner.nextInt());
-            scanner.nextLine();
-        }
     }
 }
