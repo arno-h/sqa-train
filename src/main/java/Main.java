@@ -1,19 +1,22 @@
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
-import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class Main {
 
     public static void main(String[] args) throws IOException, URISyntaxException {
         Main main = new Main();
-        main.stats();
+
+        File csv = new File(Main.class.getResource("BritishTrainFatalities.csv").toURI());
+        FileInputStream csvStream = new FileInputStream(csv);
+        main.stats(csvStream);
     }
 
-    void stats() throws IOException, URISyntaxException {
-        File csv = new File(getClass().getResource("BritishTrainFatalities.csv").toURI());
+    void stats(InputStream csv) {
         Scanner scanner = new Scanner(csv);
         scanner.nextLine(); // ignore first line
         scanner.useDelimiter(", *|\n");
@@ -112,10 +115,10 @@ public class Main {
                                     "coll_fatal=%.2f, road_acc=%.2f, " +
                                     "road_fatal=%.2f, move_acc=%.2f, " +
                                     "move_fatal=%.2f",
-                            1900 + old_decade * 10, (double)rides_mkm_avg / decade_cnt,
-                            (double)coll_acc_avg / decade_cnt, (double)coll_fatal_avg / decade_cnt,
-                            (double)road_acc_avg / decade_cnt, (double)road_fatal_avg / decade_cnt,
-                            (double)move_acc_avg / decade_cnt, (double)move_fatal_avg / decade_cnt));
+                            1900 + old_decade * 10, (double) rides_mkm_avg / decade_cnt,
+                            (double) coll_acc_avg / decade_cnt, (double) coll_fatal_avg / decade_cnt,
+                            (double) road_acc_avg / decade_cnt, (double) road_fatal_avg / decade_cnt,
+                            (double) move_acc_avg / decade_cnt, (double) move_fatal_avg / decade_cnt));
                 }
                 old_decade = new_decade;
                 rides_mkm_avg = rides_mkm.get(i);
@@ -142,9 +145,9 @@ public class Main {
                         "coll_fatal=%.2f, road_acc=%.2f, " +
                         "road_fatal=%.2f, move_acc=%.2f, " +
                         "move_fatal=%.2f",
-                1900 + old_decade * 10, ((double)rides_mkm_avg) / decade_cnt,
-                ((double)coll_acc_avg) / decade_cnt, ((double)coll_fatal_avg) / decade_cnt,
-                ((double)road_acc_avg) / decade_cnt, ((double)road_fatal_avg) / decade_cnt,
-                ((double)move_acc_avg) / decade_cnt, ((double)move_fatal_avg) / decade_cnt));
+                1900 + old_decade * 10, ((double) rides_mkm_avg) / decade_cnt,
+                ((double) coll_acc_avg) / decade_cnt, ((double) coll_fatal_avg) / decade_cnt,
+                ((double) road_acc_avg) / decade_cnt, ((double) road_fatal_avg) / decade_cnt,
+                ((double) move_acc_avg) / decade_cnt, ((double) move_fatal_avg) / decade_cnt));
     }
 }
