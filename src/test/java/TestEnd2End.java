@@ -27,8 +27,8 @@ public class TestEnd2End {
         Assert.assertTrue(outStr.contains("Decade 1990: rides_mkm=992, coll_acc=1, coll_fatal=31, road_acc=6, road_fatal=6, move_acc=56, move_fatal=56"));
         Assert.assertTrue(outStr.contains("Decade 2000: rides_mkm=1527, coll_acc=2, coll_fatal=11, road_acc=10, road_fatal=19, move_acc=71, move_fatal=71"));
         // avg stats
-        Assert.assertTrue(outStr.contains("Decade 1980: rides_mkm=72.67, coll_acc=0.67, coll_fatal=1.67, road_acc=0.67, road_fatal=1.00, move_acc=8.00, move_fatal=8.17"));
-        Assert.assertTrue(outStr.contains("Decade 1990: rides_mkm=165.33, coll_acc=0.17, coll_fatal=5.17, road_acc=1.00, road_fatal=1.00, move_acc=9.33, move_fatal=9.33"));
-        Assert.assertTrue(outStr.contains("Decade 2000: rides_mkm=254.50, coll_acc=0.33, coll_fatal=1.83, road_acc=1.67, road_fatal=3.17, move_acc=11.83, move_fatal=11.83"));
+        Assert.assertTrue(outStr.contains("Decade 1980: rides_mkm=436.00, coll_acc=4.00, coll_fatal=10.00, road_acc=4.00, road_fatal=6.00, move_acc=48.00, move_fatal=49.00"));
+        Assert.assertTrue(outStr.contains("Decade 1990: rides_mkm=496.00, coll_acc=0.50, coll_fatal=15.50, road_acc=3.00, road_fatal=3.00, move_acc=28.00, move_fatal=28.00"));
+        Assert.assertTrue(outStr.contains("Decade 2000: rides_mkm=509.00, coll_acc=0.67, coll_fatal=3.67, road_acc=3.33, road_fatal=6.33, move_acc=23.67, move_fatal=23.67"));
     }
 }
