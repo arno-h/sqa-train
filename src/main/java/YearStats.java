@@ -11,4 +11,15 @@ public class YearStats {
     public Integer getDecade() {
         return (year - 1900) / 10;
     }
+
+    public void addStats(YearStats other) {
+        year = other.year;
+        ridesMkm += other.ridesMkm;
+        collAcc += other.collAcc;
+        collFatal += other.collFatal;
+        roadAcc += other.roadAcc;
+        roadFatal += other.roadFatal;
+        moveAcc += other.moveAcc;
+        moveFatal += other.moveFatal;
+    }
 }
