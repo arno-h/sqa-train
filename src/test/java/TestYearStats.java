@@ -6,10 +6,10 @@ public class TestYearStats {
     public void testDecade() {
         YearStats yearStats = new YearStats();
         yearStats.year = 1900;
-        Assert.assertEquals(Integer.valueOf(0), yearStats.getDecade());
+        Assert.assertEquals(0, yearStats.getDecade());
         yearStats.year = 1999;
-        Assert.assertEquals(Integer.valueOf(9), yearStats.getDecade());
+        Assert.assertEquals(9, yearStats.getDecade());
         yearStats.year = 2023;
-        Assert.assertEquals(Integer.valueOf(12), yearStats.getDecade());
+        Assert.assertEquals(12, yearStats.getDecade());
     }
 }

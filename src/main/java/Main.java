@@ -1,9 +1,9 @@
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.net.URISyntaxException;
 import java.net.URL;
+import java.util.List;
 
 public class Main {
 
@@ -19,9 +19,17 @@ public class Main {
         TrainData trainData = new TrainData();
         trainData.readCSV(csvStream);
 
-        PrintWriter out = new PrintWriter(System.out, true);
-        DecadeStats decadeStats = new DecadeStats(trainData, out);
-        decadeStats.total();
-        decadeStats.average();
+        DecadeStats decadeStats = new DecadeStats(trainData);
+        List<YearStats> stats = decadeStats.total();
+        printStats(stats, "Total per decade ====================");
+        stats = decadeStats.average();
+        printStats(stats, "\nAverage per decade ====================");
+    }
+
+    private static void printStats(List<YearStats> stats, String header) {
+        System.out.println(header);
+        for(YearStats year: stats) {
+            System.out.println(year);
+        }
     }
 }

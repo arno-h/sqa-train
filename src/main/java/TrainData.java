@@ -20,13 +20,13 @@ public class TrainData {
         while (scanner.hasNext()) {
             YearStats yearStats = new YearStats();
             yearStats.year = scanner.nextInt();
-            yearStats.ridesMkm = scanner.nextInt();
-            yearStats.collAcc = scanner.nextInt();
-            yearStats.collFatal = scanner.nextInt();
-            yearStats.roadAcc = scanner.nextInt();
-            yearStats.roadFatal = scanner.nextInt();
-            yearStats.moveAcc = scanner.nextInt();
-            yearStats.moveFatal = scanner.nextInt();
+            yearStats.ridesMkm = scanner.nextFloat();
+            yearStats.collAcc = scanner.nextFloat();
+            yearStats.collFatal = scanner.nextFloat();
+            yearStats.roadAcc = scanner.nextFloat();
+            yearStats.roadFatal = scanner.nextFloat();
+            yearStats.moveAcc = scanner.nextFloat();
+            yearStats.moveFatal = scanner.nextFloat();
             scanner.nextLine();
             data.add(yearStats);
         }

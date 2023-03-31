@@ -3,12 +3,10 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.io.ByteArrayInputStream;
-import java.io.PrintWriter;
-import java.io.StringWriter;
+import java.util.List;
 
 public class TestDecadeStats {
     private DecadeStats decadeStats;
-    private StringWriter out;
 
     @Before
     public void setUp() {
@@ -21,30 +19,52 @@ public class TestDecadeStats {
                 "2002,516,1,7,3,3,30,30\n";
         TrainData trainData = new TrainData();
         trainData.readCSV(new ByteArrayInputStream(csv.getBytes()));
-        out = new StringWriter();
-        PrintWriter outWriter = new PrintWriter(out);
-        decadeStats = new DecadeStats(trainData, outWriter);
+        decadeStats = new DecadeStats(trainData);
     }
 
     @Test
     public void testTotal() {
         // when
-        decadeStats.total();
+        List<YearStats> result = decadeStats.total();
         // then
-        String outStr = out.toString();
-        Assert.assertTrue(outStr.contains("Decade 1980: rides_mkm=436, coll_acc=4, coll_fatal=10, road_acc=4, road_fatal=6, move_acc=48, move_fatal=49"));
-        Assert.assertTrue(outStr.contains("Decade 1990: rides_mkm=992, coll_acc=1, coll_fatal=31, road_acc=6, road_fatal=6, move_acc=56, move_fatal=56"));
-        Assert.assertTrue(outStr.contains("Decade 2000: rides_mkm=1527, coll_acc=2, coll_fatal=11, road_acc=10, road_fatal=19, move_acc=71, move_fatal=71"));
+        YearStats eighties = result.get(0);
+        Assert.assertEquals(436, eighties.ridesMkm, 0);
+        Assert.assertEquals(4, eighties.collAcc, 0);
+        Assert.assertEquals(10, eighties.collFatal, 0);
+        Assert.assertEquals(4, eighties.roadAcc, 0);
+        Assert.assertEquals(6, eighties.roadFatal, 0);
+        Assert.assertEquals(48, eighties.moveAcc, 0);
+        Assert.assertEquals(49, eighties.moveFatal, 0);
+        YearStats naughties = result.get(2);
+        Assert.assertEquals(1527, naughties.ridesMkm, 0);
+        Assert.assertEquals(2, naughties.collAcc, 0);
+        Assert.assertEquals(11, naughties.collFatal, 0);
+        Assert.assertEquals(10, naughties.roadAcc, 0);
+        Assert.assertEquals(19, naughties.roadFatal, 0);
+        Assert.assertEquals(71, naughties.moveAcc, 0);
+        Assert.assertEquals(71, naughties.moveFatal, 0);
     }
 
     @Test
     public void testAverage() {
         // when
-        decadeStats.average();
+        List<YearStats> result = decadeStats.average();
         // then
-        String outStr = out.toString();
-        Assert.assertTrue(outStr.contains("Decade 1980: rides_mkm=436.00, coll_acc=4.00, coll_fatal=10.00, road_acc=4.00, road_fatal=6.00, move_acc=48.00, move_fatal=49.00"));
-        Assert.assertTrue(outStr.contains("Decade 1990: rides_mkm=496.00, coll_acc=0.50, coll_fatal=15.50, road_acc=3.00, road_fatal=3.00, move_acc=28.00, move_fatal=28.00"));
-        Assert.assertTrue(outStr.contains("Decade 2000: rides_mkm=509.00, coll_acc=0.67, coll_fatal=3.67, road_acc=3.33, road_fatal=6.33, move_acc=23.67, move_fatal=23.67"));
+        YearStats nineties = result.get(1);
+        Assert.assertEquals(496, nineties.ridesMkm, 0.0001);
+        Assert.assertEquals(0.5, nineties.collAcc, 0.0001);
+        Assert.assertEquals(15.5, nineties.collFatal, 0.0001);
+        Assert.assertEquals(3, nineties.roadAcc, 0.0001);
+        Assert.assertEquals(3, nineties.roadFatal, 0.0001);
+        Assert.assertEquals(28, nineties.moveAcc, 0.0001);
+        Assert.assertEquals(28, nineties.moveFatal, 0.0001);
+        YearStats naughties = result.get(2);
+        Assert.assertEquals(509, naughties.ridesMkm, 0.01);
+        Assert.assertEquals(0.67, naughties.collAcc, 0.01);
+        Assert.assertEquals(3.67, naughties.collFatal, 0.01);
+        Assert.assertEquals(3.33, naughties.roadAcc, 0.01);
+        Assert.assertEquals(6.33, naughties.roadFatal, 0.01);
+        Assert.assertEquals(23.67, naughties.moveAcc, 0.01);
+        Assert.assertEquals(23.67, naughties.moveFatal, 0.01);
     }
 }
